@@ -1,0 +1,10 @@
+1;Thinking in Java;Bruce Eckel;Piter;2019;1168;79.65;solid
+2;Effective Java;Joshua Bloch;DMK;2013;294;29.85;soft
+3;Java Concurrency in Practice;Brian Goetz,Tim Peierls,Joshua Bloch,Joseph Bowbeer,David Holmes,Doug Lea;Piter;2020;464;54.68;soft
+4;Core Java. Volume 1 - Fundamentals;Cay Horstmann;Viliams;2019;864;60.50;solid
+5;Core Java. Volume 2 - Advanced Features;Cay Horstmann;Viliams;2020;864;70.50;solid
+6;Data Structures and Algorithms in Java;Robert Lafore;Piter;2018;704;60.77;solid
+7;Java: The Complete Reference;Herbert Schildt;Viliams;2018;1488;90.10;soft
+8;Java Persistence with Hibernate;Christian Bauer,Gavin King,Gary Gregory;DMK;2018;632;80.35;solid
+9;Head First Design Patterns: A Brain-Friendly Guide;Eric Freeman,Bert Bates;Piter;2018;626;40.25;soft
+10;Algorithms;Robert Sedgewick,Kevin Wayne;Viliams;2019;848;70.10;solid
