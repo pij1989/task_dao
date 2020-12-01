@@ -1,5 +1,6 @@
 package com.pozharsky.dmitri.entity;
 
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -10,13 +11,13 @@ public class Book {
     private PublishingHouse publishingHouse;
     private int year;
     private int amountPage;
-    private double price;
+    private BigDecimal price;
     private Binding binding;
 
     public Book() {
     }
 
-    public Book(long id, String name, Set<Author> authors, PublishingHouse publishingHouse, int year, int amountPage, double price, Binding binding) {
+    public Book(long id, String name, Set<Author> authors, PublishingHouse publishingHouse, int year, int amountPage, BigDecimal price, Binding binding) {
         this.id = id;
         this.name = name;
         this.authors = authors;
@@ -75,11 +76,11 @@ public class Book {
         this.amountPage = amountPage;
     }
 
-    public double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
@@ -101,25 +102,22 @@ public class Book {
         if (id != book.id) return false;
         if (year != book.year) return false;
         if (amountPage != book.amountPage) return false;
-        if (Double.compare(book.price, price) != 0) return false;
         if (name != null ? !name.equals(book.name) : book.name != null) return false;
         if (authors != null ? !authors.equals(book.authors) : book.authors != null) return false;
         if (publishingHouse != book.publishingHouse) return false;
+        if (price != null ? !price.equals(book.price) : book.price != null) return false;
         return binding == book.binding;
     }
 
     @Override
     public int hashCode() {
-        int result;
-        long temp;
-        result = (int) (id ^ (id >>> 32));
+        int result = (int) (id ^ (id >>> 32));
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (authors != null ? authors.hashCode() : 0);
         result = 31 * result + (publishingHouse != null ? publishingHouse.hashCode() : 0);
         result = 31 * result + year;
         result = 31 * result + amountPage;
-        temp = Double.doubleToLongBits(price);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + (price != null ? price.hashCode() : 0);
         result = 31 * result + (binding != null ? binding.hashCode() : 0);
         return result;
     }

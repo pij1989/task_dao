@@ -7,7 +7,12 @@ import com.pozharsky.dmitri.entity.PublishingHouse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -54,7 +59,7 @@ public class BookReader {
         PublishingHouse publishingHome = PublishingHouse.valueOf(arrayString[3].trim().toUpperCase());
         int year = Integer.parseInt(arrayString[4].trim());
         int amountPage = Integer.parseInt(arrayString[5].trim());
-        double price = Double.parseDouble(arrayString[6].trim());
+        BigDecimal price = new BigDecimal(arrayString[6].trim());
         Binding binding = Binding.valueOf(arrayString[7].trim().toUpperCase());
         return new Book(id, name, authors, publishingHome, year, amountPage, price, binding);
     }
