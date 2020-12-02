@@ -58,11 +58,15 @@ public class BookWarehouse {
     }
 
     public List<Book> getBooks() {
-        return new ArrayList<>(books);
+        return books.stream()
+                .map(this::cloneBook)
+                .collect(Collectors.toList());
     }
 
     public void setBooks(List<Book> books) {
-        this.books = new ArrayList<>(books);
+        this.books = books.stream()
+                .map(this::cloneBook)
+                .collect(Collectors.toList());
     }
 
     private Book cloneBook(Book book) {
