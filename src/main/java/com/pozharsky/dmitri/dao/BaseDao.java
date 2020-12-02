@@ -15,5 +15,5 @@ public interface BaseDao<T> {
 
     boolean create(T entity) throws DaoException;
 
-    T update(T entity);
+    T update(T entity) throws DaoException;
 }

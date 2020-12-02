@@ -3,7 +3,6 @@ package com.pozharsky.dmitri.service;
 import com.pozharsky.dmitri.entity.Author;
 import com.pozharsky.dmitri.entity.Book;
 import com.pozharsky.dmitri.entity.PublishingHouse;
-import com.pozharsky.dmitri.exception.DaoException;
 
 import java.util.Comparator;
 import java.util.List;
@@ -24,9 +23,9 @@ public interface BookService {
 
     boolean delete(long id);
 
-    boolean delete(Book entity);
+    boolean delete(Book book);
 
-    boolean create(Book entity) throws DaoException;
+    boolean create(Book book);
 
-    Optional<Book> update(Book entity);
+    Optional<Book> update(Book book);
 }

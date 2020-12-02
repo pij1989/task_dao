@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
 public class BookServiceImpl implements BookService {
     private static final Logger logger = LogManager.getLogger(BookServiceImpl.class);
     private static BookServiceImpl bookService;
-    private BookDaoImpl bookDao = BookDaoImpl.getInstance();
 
     private BookServiceImpl() {
     }
@@ -29,9 +28,10 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public List<Book> findAll() {
+        BookDaoImpl bookDao = BookDaoImpl.getInstance();
         List<Book> books = new ArrayList<>();
         try {
-            books.addAll(bookDao.findAll());
+            books = bookDao.findAll();
         } catch (DaoException e) {
             logger.error("Can not find books: " + e);
         }
@@ -40,9 +40,10 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public List<Book> findAll(Comparator<Book> comparator) {
+        BookDaoImpl bookDao = BookDaoImpl.getInstance();
         List<Book> books = new ArrayList<>();
         try {
-            books.addAll(bookDao.findAll());
+            books = bookDao.findAll();
             books.sort(comparator);
         } catch (DaoException e) {
             logger.error("Can not find books: " + e);
@@ -52,12 +53,13 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public List<Book> findBookByAuthor(Author author, Comparator<Book> comparator) {
-        List<Book> books = null;
+        BookDaoImpl bookDao = BookDaoImpl.getInstance();
+        List<Book> books = new ArrayList<>();
         try {
             books = bookDao.findAll().stream()
-                    .filter(as -> {
+                    .filter(b -> {
                         boolean flag = false;
-                        Set<Author> authors = as.getAuthors();
+                        Set<Author> authors = b.getAuthors();
                         for (Author a : authors) {
                             if (a.equals(author)) {
                                 flag = true;
@@ -75,16 +77,37 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public List<Book> findBookByPublishingHouse(PublishingHouse publishingHouse, Comparator<Book> comparator) {
-        return null;
+        BookDaoImpl bookDao = BookDaoImpl.getInstance();
+        List<Book> books = new ArrayList<>();
+        try {
+            books = bookDao.findAll().stream()
+                    .filter(b -> b.getPublishingHouse().equals(publishingHouse))
+                    .sorted(comparator)
+                    .collect(Collectors.toList());
+        } catch (DaoException e) {
+            logger.error("Can not find books: " + e);
+        }
+        return books;
     }
 
     @Override
     public List<Book> findBookAfterYear(int year, Comparator<Book> comparator) {
-        return null;
+        BookDaoImpl bookDao = BookDaoImpl.getInstance();
+        List<Book> books = new ArrayList<>();
+        try {
+            books = bookDao.findAll().stream()
+                    .filter(b -> b.getYear() > year)
+                    .sorted(comparator)
+                    .collect(Collectors.toList());
+        } catch (DaoException e) {
+            logger.error("Can not find books: " + e);
+        }
+        return books;
     }
 
     @Override
     public Optional<Book> findById(long id) {
+        BookDaoImpl bookDao = BookDaoImpl.getInstance();
         Book book = null;
         try {
             book = bookDao.findById(id);
@@ -96,21 +119,49 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public boolean delete(long id) {
-        return false;
+        BookDaoImpl bookDao = BookDaoImpl.getInstance();
+        boolean isDelete = false;
+        try {
+            isDelete = bookDao.delete(id);
+        } catch (DaoException e) {
+            logger.error("Can not delete a book: " + e);
+        }
+        return isDelete;
     }
 
     @Override
-    public boolean delete(Book entity) {
-        return false;
+    public boolean delete(Book book) {
+        BookDaoImpl bookDao = BookDaoImpl.getInstance();
+        boolean isDelete = false;
+        try {
+            isDelete = bookDao.delete(book);
+        } catch (DaoException e) {
+            logger.error("Can not delete a book: " + e);
+        }
+        return isDelete;
     }
 
     @Override
-    public boolean create(Book entity) throws DaoException {
-        return false;
+    public boolean create(Book book) {
+        BookDaoImpl bookDao = BookDaoImpl.getInstance();
+        boolean isCreate = false;
+        try {
+            isCreate = bookDao.create(book);
+        } catch (DaoException e) {
+            logger.error("Can not create a book: " + e);
+        }
+        return isCreate;
     }
 
     @Override
-    public Optional<Book> update(Book entity) {
-        return Optional.empty();
+    public Optional<Book> update(Book book) {
+        BookDaoImpl bookDao = BookDaoImpl.getInstance();
+        Book b = null;
+        try {
+            b = bookDao.update(book);
+        } catch (DaoException e) {
+            logger.error("Can not update a book: " + e);
+        }
+        return b == null ? Optional.empty() : Optional.of(book);
     }
 }

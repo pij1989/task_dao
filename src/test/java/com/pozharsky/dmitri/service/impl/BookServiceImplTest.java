@@ -14,9 +14,11 @@ import org.testng.annotations.Test;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 public class BookServiceImplTest {
     static final String FILE = "data\\books.txt";
@@ -68,31 +70,68 @@ public class BookServiceImplTest {
         assertEquals(actual, expect);
     }
 
-    @Test(enabled = false)
+    @Test
     public void testFindBookByPublishingHouse() {
+        PublishingHouse publishingHouse = PublishingHouse.DMK;
+        Book book1 = new Book(2L, "Effective Java", Set.of(new Author("Joshua", "Bloch")),
+                PublishingHouse.DMK, 2013, 294, new BigDecimal(29.85, new MathContext(PRECISION)), Binding.SOFT);
+        Book book2 = new Book(8L, "Java Persistence with Hibernate", Set.of(new Author("Christian", "Bauer"), new Author("Gavin", "King"), new Author("Gary", "Gregory")),
+                PublishingHouse.DMK, 2018, 632, new BigDecimal(80.35, new MathContext(PRECISION)), Binding.SOLID);
+        List<Book> actual = bookService.findBookByPublishingHouse(publishingHouse, BookComparator.AMOUNT_PAGE);
+        List<Book> expect = List.of(book1, book2);
+        assertEquals(actual, expect);
     }
 
-    @Test(enabled = false)
+    @Test
     public void testFindBookAfterYear() {
+        int year = 2019;
+        Book book1 = new Book(3L, "Java Concurrency in Practice", Set.of(new Author("Brian", "Goetz"), new Author("Tim", "Peierls"),
+                new Author("Joshua", "Bloch"), new Author("Joseph", "Bowbeer"), new Author("David", "Holmes"), new Author("Doug", "Lea")),
+                PublishingHouse.PITER, 2020, 464, new BigDecimal(54.68, new MathContext(PRECISION)), Binding.SOFT);
+        Book book2 = new Book(5L, "Core Java. Volume 2 - Advanced Features", Set.of(new Author("Cay", "Horstmann")),
+                PublishingHouse.VILIAMS, 2020, 864, new BigDecimal(70.55, new MathContext(PRECISION)), Binding.SOLID);
+        List<Book> actual = bookService.findBookAfterYear(year, BookComparator.AMOUNT_PAGE);
+        List<Book> expect = List.of(book1, book2);
+        assertEquals(actual, expect);
     }
 
-    @Test(enabled = false)
+    @Test
     public void testFindById() {
+        Book book = new Book(2L, "Effective Java", Set.of(new Author("Joshua", "Bloch")),
+                PublishingHouse.DMK, 2013, 294, new BigDecimal(29.85, new MathContext(PRECISION)), Binding.SOFT);
+        Optional<Book> actual = bookService.findById(2L);
+        Optional<Book> expect = Optional.of(book);
+        assertEquals(actual, expect);
     }
 
-    @Test(enabled = false)
-    public void testDelete() {
+    @Test
+    public void testDeleteById() {
+        boolean actual = bookService.delete(2L);
+        assertTrue(actual);
     }
 
-    @Test(enabled = false)
-    public void testTestDelete() {
+    @Test
+    public void testDeleteByBook() {
+        Book book = new Book(2L, "Effective Java", Set.of(new Author("Joshua", "Bloch")),
+                PublishingHouse.DMK, 2013, 294, new BigDecimal(29.85, new MathContext(PRECISION)), Binding.SOFT);
+        boolean actual = bookService.delete(book);
+        assertTrue(actual);
     }
 
-    @Test(enabled = false)
+    @Test
     public void testCreate() {
+        Book book = new Book(11L, "Effective Java", Set.of(new Author("Joshua", "Bloch")),
+                PublishingHouse.DMK, 2013, 294, new BigDecimal(29.85, new MathContext(PRECISION)), Binding.SOFT);
+        boolean actual = bookService.create(book);
+        assertTrue(actual);
     }
 
-    @Test(enabled = false)
+    @Test
     public void testUpdate() {
+        Book book = new Book(2L, "Effective Java", Set.of(new Author("Joshua", "Bloch")),
+                PublishingHouse.DMK, 2019, 394, new BigDecimal(39.85, new MathContext(PRECISION)), Binding.SOFT);
+        Optional<Book> actual = bookService.update(book);
+        Optional<Book> expect = Optional.of(book);
+        assertEquals(actual, expect);
     }
 }

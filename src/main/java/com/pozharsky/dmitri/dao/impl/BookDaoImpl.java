@@ -28,35 +28,35 @@ public class BookDaoImpl implements BaseDao<Book> {
     @Override
     public List<Book> findAll() throws DaoException {
         BookWarehouse bookWarehouse = BookWarehouse.getInstance();
-        List<Book> books = new ArrayList<>();
         try {
+            List<Book> books = new ArrayList<>();
             for (int i = 0; i < bookWarehouse.size(); i++) {
                 Book book = bookWarehouse.getBook(i);
                 books.add(book);
             }
+            return books;
         } catch (BookWarehouseException e) {
             logger.error("Incorrect index: " + e);
             throw new DaoException("Can not find books:" + e);
         }
-        return books;
     }
 
     @Override
     public Book findById(long id) throws DaoException {
         BookWarehouse bookWarehouse = BookWarehouse.getInstance();
-        Book book = null;
         try {
+            Book book = null;
             for (int i = 0; i < bookWarehouse.size(); i++) {
                 Book b = bookWarehouse.getBook(i);
                 if (b.getId() == id) {
                     book = b;
                 }
             }
+            return book;
         } catch (BookWarehouseException e) {
             logger.error("Incorrect index: " + e);
             throw new DaoException("Can not find a book: " + e);
         }
-        return book;
     }
 
     @Override
@@ -69,11 +69,11 @@ public class BookDaoImpl implements BaseDao<Book> {
                     return bookWarehouse.removeBook(book);
                 }
             }
+            throw new DaoException("Can not delete a book. This book doesn't exist");
         } catch (BookWarehouseException e) {
             logger.error("Incorrect index: " + e);
             throw new DaoException("Can not delete a book: " + e);
         }
-        throw new DaoException("Can not delete a book. This book doesn't exist");
     }
 
     @Override
@@ -95,10 +95,10 @@ public class BookDaoImpl implements BaseDao<Book> {
     }
 
     @Override
-    public Book update(Book entity) {
+    public Book update(Book entity) throws DaoException {
         BookWarehouse bookWarehouse = BookWarehouse.getInstance();
-        Book book = null;
         try {
+            Book book = null;
             for (int i = 0; i < bookWarehouse.size(); i++) {
                 Book b = bookWarehouse.getBook(i);
                 if (entity.getId() == b.getId()) {
@@ -106,9 +106,10 @@ public class BookDaoImpl implements BaseDao<Book> {
                     book = entity;
                 }
             }
+            return book;
         } catch (BookWarehouseException e) {
             logger.error("Incorrect index: " + e);
+            throw new DaoException("Can not update a book");
         }
-        return book;
     }
 }
