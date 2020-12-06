@@ -9,7 +9,11 @@ import com.pozharsky.dmitri.service.BookService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Set;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class BookServiceImpl implements BookService {
@@ -60,8 +64,8 @@ public class BookServiceImpl implements BookService {
                     .filter(b -> {
                         boolean flag = false;
                         Set<Author> authors = b.getAuthors();
-                        for (Author a : authors) {
-                            if (a.equals(author)) {
+                        for (Author author1 : authors) {
+                            if (author1.equals(author)) {
                                 flag = true;
                             }
                         }
@@ -156,12 +160,12 @@ public class BookServiceImpl implements BookService {
     @Override
     public Optional<Book> update(Book book) {
         BookDaoImpl bookDao = BookDaoImpl.getInstance();
-        Book b = null;
+        Book oldBook = null;
         try {
-            b = bookDao.update(book);
+            oldBook = bookDao.update(book);
         } catch (DaoException e) {
             logger.error("Can not update a book: " + e);
         }
-        return b == null ? Optional.empty() : Optional.of(book);
+        return oldBook == null ? Optional.empty() : Optional.of(book);
     }
 }

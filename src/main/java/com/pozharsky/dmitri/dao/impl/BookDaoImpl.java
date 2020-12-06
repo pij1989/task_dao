@@ -47,9 +47,9 @@ public class BookDaoImpl implements BaseDao<Book> {
         try {
             Book book = null;
             for (int i = 0; i < bookWarehouse.size(); i++) {
-                Book b = bookWarehouse.getBook(i);
-                if (b.getId() == id) {
-                    book = b;
+                Book warehouseBook = bookWarehouse.getBook(i);
+                if (warehouseBook.getId() == id) {
+                    book = warehouseBook;
                 }
             }
             return book;
@@ -100,8 +100,8 @@ public class BookDaoImpl implements BaseDao<Book> {
         try {
             Book book = null;
             for (int i = 0; i < bookWarehouse.size(); i++) {
-                Book b = bookWarehouse.getBook(i);
-                if (entity.getId() == b.getId()) {
+                Book warehouseBook = bookWarehouse.getBook(i);
+                if (entity.getId() == warehouseBook.getId()) {
                     bookWarehouse.setBook(i, entity);
                     book = entity;
                 }

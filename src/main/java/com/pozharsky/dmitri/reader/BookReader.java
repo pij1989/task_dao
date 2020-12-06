@@ -30,13 +30,13 @@ public class BookReader {
         if (file == null) {
             file = DEFAULT_FILE;
         }
-        File f = new File(file);
-        if (f.length() == EMPTY) {
-            f = new File(DEFAULT_FILE);
+        File newFile = new File(file);
+        if (newFile.length() == EMPTY) {
+            newFile = new File(DEFAULT_FILE);
         }
         String line;
         List<Book> list = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(f))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(newFile))) {
             while ((line = reader.readLine()) != null) {
                 Book book = parseBook(line);
                 list.add(book);
